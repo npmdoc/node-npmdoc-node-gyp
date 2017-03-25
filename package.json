@@ -1,17 +1,40 @@
 {
-    "buildNpmdoc":"node-gyp",
+    "author": "kai zhu <kaizhu256@gmail.com>",
+    "buildNpmdoc": "node-gyp",
+    "description": "api documentation for [node-gyp (v3.6.0)](https://github.com/nodejs/node-gyp#readme) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-gyp.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-gyp)",
     "devDependencies": {
-        "node-gyp": "*",
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
+        "node-gyp": "*",
         "utility2": "kaizhu256/node-utility2#alpha"
     },
-    "name":"npmdoc-node-gyp",
+    "engines": {
+        "node": ">=4.0"
+    },
+    "homepage": "https://github.com/npmdoc/node-npmdoc-node-gyp",
+    "keywords": [
+        "documentation",
+        "node-gyp"
+    ],
+    "license": "MIT",
+    "main": "lib.npmdoc_node_gyp.js",
+    "name": "npmdoc-node-gyp",
+    "nameAlias": "npmdoc_node_gyp",
+    "nameOriginal": "npmdoc-node-gyp",
+    "os": [
+        "darwin",
+        "linux"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/npmdoc/node-npmdoc-node-gyp.git"
     },
     "scripts": {
-        "build-ci": "utility2 shReadmeTest build_ci.sh"
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
+        "env": "env",
+        "heroku-postbuild": "(set -e; npm install \"kaizhu256/node-utility2#alpha\"; utility2 shDeployHeroku)",
+        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",
+        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",
+        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
-    "version": "0.0.1"
+    "version": "0.0.2"
 }
