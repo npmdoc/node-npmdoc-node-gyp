@@ -1,11 +1,13 @@
-# api documentation for  [node-gyp (v3.6.0)](https://github.com/nodejs/node-gyp#readme)  [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-gyp.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-gyp)
+# api documentation for  [node-gyp (v3.6.0)](https://github.com/nodejs/node-gyp#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-node-gyp.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-node-gyp) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-gyp.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-gyp)
 #### Node.js native addon build tool
 
 [![NPM](https://nodei.co/npm/node-gyp.png?downloads=true)](https://www.npmjs.com/package/node-gyp)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-node-gyp/build/screen-capture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-node_gyp_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-node-gyp/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-node-gyp/build/screenCapture.buildNpmdoc.browser.%2Fhome%2Ftravis%2Fbuild%2Fnpmdoc%2Fnode-npmdoc-node-gyp%2Ftmp%2Fbuild%2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-node-gyp/build/apidoc.html)
 
-![package-listing](https://npmdoc.github.io/node-npmdoc-node-gyp/build/screen-capture.npmPackageListing.svg)
+![npmPackageListing](https://npmdoc.github.io/node-npmdoc-node-gyp/build/screenCapture.npmPackageListing.svg)
+
+![npmPackageDependencyTree](https://npmdoc.github.io/node-npmdoc-node-gyp/build/screenCapture.npmPackageDependencyTree.svg)
 
 
 
@@ -305,19 +307,20 @@ function spawn(command, args, opts) {
 - example usage
 ```shell
 ...
-      return path.extname(arg) == '.sln'
-    })
-    if (!hasSln) {
-      argv.unshift(gyp.opts.solution || guessedSolution)
+    // make sure python uses files that came with this particular node package
+    var pypath = [path.join(__dirname, '..', 'gyp', 'pylib')]
+    if (process.env.PYTHONPATH) {
+      pypath.push(process.env.PYTHONPATH)
     }
-  }
+    process.env.PYTHONPATH = pypath.join(win ? ';' : ':')
 
-  var proc = gyp.spawn(command, argv)
-  proc.on('exit', onExit)
+    var cp = gyp.spawn(python, argv)
+    cp.on('exit', onCpExit)
+  })
 }
 
 /**
- * Invoked after the make/msbuild command exits.
+ * Called when the 'gyp' child process exits.
  */
 ...
 ```
