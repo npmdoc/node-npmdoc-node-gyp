@@ -547,19 +547,20 @@
   return cp
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-      return path.extname(arg) == &#x27;.sln&#x27;
-    })
-    if (!hasSln) {
-      argv.unshift(gyp.opts.solution || guessedSolution)
+    // make sure python uses files that came with this particular node package
+    var pypath = [path.join(__dirname, &#x27;..&#x27;, &#x27;gyp&#x27;, &#x27;pylib&#x27;)]
+    if (process.env.PYTHONPATH) {
+      pypath.push(process.env.PYTHONPATH)
     }
-  }
+    process.env.PYTHONPATH = pypath.join(win ? &#x27;;&#x27; : &#x27;:&#x27;)
 
-  var proc = gyp.<span class="apidocCodeKeywordSpan">spawn</span>(command, argv)
-  proc.on(&#x27;exit&#x27;, onExit)
+    var cp = gyp.<span class="apidocCodeKeywordSpan">spawn</span>(python, argv)
+    cp.on(&#x27;exit&#x27;, onCpExit)
+  })
 }
 
 /**
- * Invoked after the make/msbuild command exits.
+ * Called when the `gyp` child process exits.
  */
 ...</pre></li>
     </ul>
