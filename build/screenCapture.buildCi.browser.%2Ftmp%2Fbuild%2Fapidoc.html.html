@@ -56,6 +56,15 @@
 
         <li>
 
+            <a class="apidocElementLiA" href="#apidoc.element.node-gyp.node-gyp">
+            function <span class="apidocSignatureSpan"></span>node-gyp
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
             <a class="apidocElementLiA" href="#apidoc.element.node-gyp.Gyp">
             function <span class="apidocSignatureSpan">node-gyp.</span>Gyp
             <span class="apidocSignatureSpan">()</span>
@@ -379,6 +388,21 @@
 
 
     <h2>
+        <a href="#apidoc.element.node-gyp.node-gyp" id="apidoc.element.node-gyp.node-gyp">
+        function <span class="apidocSignatureSpan"></span>node-gyp
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function gyp() {
+  return new Gyp()
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
         <a href="#apidoc.element.node-gyp.Gyp" id="apidoc.element.node-gyp.Gyp">
         function <span class="apidocSignatureSpan">node-gyp.</span>Gyp
         <span class="apidocSignatureSpan">()</span>
@@ -517,7 +541,23 @@
   }
   log.resume()
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+/**
+ * Process and execute the selected commands.
+ */
+
+var prog = gyp()
+var completed = false
+prog.<span class="apidocCodeKeywordSpan">parseArgv</span>(process.argv)
+prog.devDir = prog.opts.devdir
+
+var homeDir = osenv.home()
+if (prog.devDir) {
+prog.devDir = prog.devDir.replace(/^~/, homeDir)
+} else if (homeDir) {
+prog.devDir = path.resolve(homeDir, '.node-gyp')
+...</pre></li>
     </ul>
 
 
@@ -582,7 +622,23 @@
   ].join('\n')
   return str
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    "Overide with: --devdir /path/to/.node-gyp")
+}
+
+if (prog.todo.length === 0) {
+  if (~process.argv.indexOf('-v') || ~process.argv.indexOf('--version')) {
+    console.log('v%s', prog.version)
+  } else {
+    console.log('%s', prog.<span class="apidocCodeKeywordSpan">usage</span>())
+  }
+  return process.exit(0)
+}
+
+log.info('it worked if it ends with', 'ok')
+log.verbose('cli', process.argv)
+log.info('using', 'node-gyp@%s', prog.version)
+...</pre></li>
     </ul>
 
 
